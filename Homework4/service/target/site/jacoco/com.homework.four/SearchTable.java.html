@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchTable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">service</a> &gt; <a href="index.source.html" class="el_package">com.homework.four</a> &gt; <span class="el_source">SearchTable.java</span></div><h1>SearchTable.java</h1><pre class="source lang-java linenums">package com.homework.four;
+
+import org.apache.commons.lang3.StringUtils; 
+
+<span class="fc" id="L5">public class SearchTable {</span>
+
+    public String searchOccurenceandIndex(String[][] table, String search) {
+
+<span class="fc" id="L9">        int row = table.length;</span>
+<span class="fc" id="L10">        int col = table[0].length;</span>
+
+<span class="fc" id="L12">        String[][] tempKey = new String[row][col];</span>
+<span class="fc" id="L13">        String[][] tempVal = new String[row][col];</span>
+
+<span class="fc" id="L15">        StringBuilder sb = new StringBuilder();</span>
+
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        for (int i = 0; i &lt; row; i++) { //key</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">            for (int j = 0; j &lt; col; j++) {</span>
+                try { 
+<span class="fc bfc" id="L20" title="All 2 branches covered.">                    if (StringUtils.contains(table[i][j],&quot;null,&quot;)) {</span>
+<span class="fc" id="L21">                        tempKey[i][j] = null;</span>
+                    } else {
+<span class="fc" id="L23">                        tempKey[i][j] = table[i][j].substring(0, 3);</span>
+                    }
+<span class="fc" id="L25">                }catch (NullPointerException e){</span>
+<span class="fc" id="L26">                    tempKey[i][j] = null;</span>
+<span class="fc" id="L27">                }</span>
+            }
+        }
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for (int i = 0; i &lt; row; i++) { //values</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            for (int j = 0; j &lt; col; j++) {</span>
+                try {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">                    if (StringUtils.contains(table[i][j],&quot;,null&quot;)) {</span>
+<span class="fc" id="L35">                        tempVal[i][j] = null;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">                    } else if (StringUtils.contains(table[i][j],&quot;null,&quot;)) {</span>
+<span class="fc" id="L37">						tempVal[i][j] = table[i][j].substring(5, 8);</span>
+					} else {
+<span class="fc" id="L39">                        tempVal[i][j] = table[i][j].substring(4, 7);</span>
+                    }
+<span class="fc" id="L41">                }catch (NullPointerException e){</span>
+<span class="fc" id="L42">                    tempKey[i][j] = null;</span>
+<span class="fc" id="L43">                }</span>
+            }
+        }
+		
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int i = 0; i &lt; row; i++) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            for (int j = 0; j &lt; col; j++) {</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">                if (StringUtils.isNoneEmpty(tempKey[i][j]) &amp;&amp; StringUtils.contains(tempKey[i][j],search)){</span>
+<span class="fc" id="L50">					sb.append(&quot;Output: [&quot; + i + &quot;,&quot; + j + &quot;] - &quot; + StringUtils.countMatches(tempKey[i][j],search) + &quot; Occurence found on key field\n&quot;);</span>
+				}
+<span class="fc bfc" id="L52" title="All 4 branches covered.">				if (StringUtils.isNoneEmpty(tempVal[i][j]) &amp;&amp; StringUtils.contains(tempVal[i][j],search)){</span>
+<span class="fc" id="L53">					sb.append(&quot;Output: [&quot; + i + &quot;,&quot; + j + &quot;] - &quot; + StringUtils.countMatches(tempVal[i][j],search) + &quot; Occurence found on value field\n&quot;);</span>
+				}
+			}
+		}
+<span class="fc" id="L57">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

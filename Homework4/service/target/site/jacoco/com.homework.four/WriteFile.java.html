@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WriteFile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">service</a> &gt; <a href="index.source.html" class="el_package">com.homework.four</a> &gt; <span class="el_source">WriteFile.java</span></div><h1>WriteFile.java</h1><pre class="source lang-java linenums">package com.homework.four;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.apache.commons.lang3.StringUtils; 
+
+<span class="fc" id="L7">public class WriteFile {</span>
+
+    public boolean saveFile(String[][] table, String filePath, String fileName) {
+
+<span class="fc" id="L11">        boolean  status = true;</span>
+        
+<span class="fc" id="L13">        int row = table.length;</span>
+<span class="fc" id="L14">        int col = table[0].length;</span>
+        
+        String holder;
+<span class="fc" id="L17">        String[][] duplicate = new String[row][col];</span>
+<span class="fc" id="L18">        String path = filePath + fileName + &quot;.txt&quot;;</span>
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        for (int i = 0; i &lt; row; i++) {</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            for (int j = 0; j &lt; col; j++) {</span>
+<span class="fc" id="L22">                holder = table[i][j];</span>
+<span class="fc" id="L23">                duplicate[i][j] = holder;</span>
+            }
+        }
+
+        try {
+<span class="fc" id="L28">            try (FileWriter writer = new FileWriter(path)) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                for (int i = 0; i &lt; row; i++) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">                    for (int j = 0; j &lt; col; j++) {</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">                        if (StringUtils.isNoneEmpty(duplicate[i][j])) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                            if (j == col - 1) {</span>
+<span class="fc" id="L33">                                writer.write(duplicate[i][j]);</span>
+                            } else {
+<span class="fc" id="L35">                                writer.write(duplicate[i][j] + &quot; &quot;);</span>
+                            }
+                        } else {
+<span class="fc" id="L38">                            writer.write(&quot;null &quot;);</span>
+                        }
+                    }
+<span class="fc" id="L41">                    writer.write(&quot;\n&quot;);</span>
+                }
+            }
+<span class="fc" id="L44">        } catch (IOException e) {</span>
+<span class="fc" id="L45">            status = false;</span>
+<span class="fc" id="L46">        }</span>
+<span class="fc" id="L47">        return status;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

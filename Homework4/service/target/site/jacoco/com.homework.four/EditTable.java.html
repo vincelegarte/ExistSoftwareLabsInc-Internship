@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditTable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">service</a> &gt; <a href="index.source.html" class="el_package">com.homework.four</a> &gt; <span class="el_source">EditTable.java</span></div><h1>EditTable.java</h1><pre class="source lang-java linenums">package com.homework.four;
+
+import org.apache.commons.lang3.StringUtils; 
+
+<span class="fc" id="L5">public class EditTable {</span>
+    
+    public String[][] changeValues(String[][] table, int row, int col, String changeVal, String newVal){
+        
+<span class="fc bfc" id="L9" title="All 2 branches covered.">        if (StringUtils.equals(changeVal, &quot;key&quot;)){</span>
+            try {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">                if (StringUtils.contains(table[row][col],&quot;null,&quot;)){</span>
+<span class="fc" id="L12">                    String replace = StringUtils.replace(table[row][col],&quot;null,&quot;, newVal+&quot;,&quot;);</span>
+<span class="fc" id="L13">                    table[row][col] = replace;</span>
+<span class="fc" id="L14">                } else {</span>
+<span class="fc" id="L15">                    String replace = StringUtils.replace(table[row][col],table[row][col].substring(0, 4), newVal+&quot;,&quot;);</span>
+<span class="fc" id="L16">                    table[row][col] = replace;</span>
+                }
+<span class="fc" id="L18">            } catch (NullPointerException e) {</span>
+<span class="fc" id="L19">                table[row][col] = newVal+&quot;,&quot;+null;</span>
+<span class="fc" id="L20">            }</span>
+        }
+        
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (StringUtils.equals(changeVal,&quot;value&quot;)){</span>
+            try {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">                if (StringUtils.contains(table[row][col],&quot;,null&quot;)){</span>
+<span class="fc" id="L26">                    String replace = StringUtils.replace(table[row][col],&quot;,null&quot;, &quot;,&quot;+newVal);</span>
+<span class="fc" id="L27">                    table[row][col] = replace;</span>
+<span class="fc" id="L28">                } else {</span>
+<span class="fc" id="L29">                    String replace = StringUtils.replace(table[row][col],table[row][col].substring(3, 7), &quot;,&quot;+newVal);</span>
+<span class="fc" id="L30">                    table[row][col] = replace;</span>
+                }
+<span class="fc" id="L32">            } catch (NullPointerException e){</span>
+<span class="fc" id="L33">                table[row][col] = null+&quot;,&quot;+newVal;</span>
+<span class="fc" id="L34">            }</span>
+        }
+
+<span class="fc" id="L37">        return table;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
