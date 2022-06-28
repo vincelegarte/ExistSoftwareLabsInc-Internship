@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="com.homework.four.EditTableTest" time="0.093" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="com.homework.four.EditTableTest" time="0.22" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.14+8-LTS-263"/>
@@ -65,10 +65,10 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.homework.four.EditTableTest" name="testAddKeyandNull" time="0.08"/>
-  <testcase classname="com.homework.four.EditTableTest" name="testAddNullandVal" time="0.002"/>
+  <testcase classname="com.homework.four.EditTableTest" name="testAddKeyandNull" time="0.205"/>
+  <testcase classname="com.homework.four.EditTableTest" name="testAddNullandVal" time="0.003"/>
   <testcase classname="com.homework.four.EditTableTest" name="testChangeNulltoKey" time="0.006"/>
-  <testcase classname="com.homework.four.EditTableTest" name="testChangeNulltoVal" time="0.001"/>
+  <testcase classname="com.homework.four.EditTableTest" name="testChangeNulltoVal" time="0.002"/>
   <testcase classname="com.homework.four.EditTableTest" name="testChangeKey" time="0.002"/>
   <testcase classname="com.homework.four.EditTableTest" name="testChangeVal" time="0.002"/>
 </testsuite>
