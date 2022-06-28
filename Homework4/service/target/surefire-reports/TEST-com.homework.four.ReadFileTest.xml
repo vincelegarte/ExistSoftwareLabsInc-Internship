@@ -45,7 +45,7 @@
     <property name="user.name" value="Vince"/>
     <property name="java.vm.specification.version" value="11"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean package"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean install"/>
     <property name="java.home" value="C:\Program Files\Java\jdk-11.0.14"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -65,6 +65,6 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.homework.four.ReadFileTest" name="testEmptyFile" time="0.146"/>
-  <testcase classname="com.homework.four.ReadFileTest" name="testOpenFile" time="0.019"/>
+  <testcase classname="com.homework.four.ReadFileTest" name="testEmptyFile" time="0.141"/>
+  <testcase classname="com.homework.four.ReadFileTest" name="testOpenFile" time="0.024"/>
 </testsuite>
