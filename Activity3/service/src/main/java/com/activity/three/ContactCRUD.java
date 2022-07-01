@@ -14,6 +14,7 @@ public class ContactCRUD {
             transaction = session.beginTransaction();
             session.save(contact);
             transaction.commit();
+            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -28,6 +29,7 @@ public class ContactCRUD {
             transaction = session.beginTransaction();
             contact = session.get(Contact.class, id);
             transaction.commit();
+            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -36,13 +38,14 @@ public class ContactCRUD {
         return contact;
     }
 
-    public List<Contact> getAllContact(){ //READ
+    public List<Contact> getAllContacts(){ //READ
         Transaction transaction = null;
         List<Contact> contacts = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
             contacts = session.createQuery("FROM contact").list();
             transaction.commit();
+            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -57,6 +60,7 @@ public class ContactCRUD {
             transaction = session.beginTransaction();
             session.saveOrUpdate(contact);
             transaction.commit();
+            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -72,6 +76,7 @@ public class ContactCRUD {
             contact = session.get(Contact.class, id);
             session.delete(contact);
             transaction.commit();
+            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();

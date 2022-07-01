@@ -11,8 +11,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 
-@Entity
-@Table(name="Contact")
+@Entity(name ="contact")
+@Table(name="contact")
 public class Contact implements Serializable{
     
     @Id

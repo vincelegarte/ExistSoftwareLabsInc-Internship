@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 
-@Entity
+@Entity(name="person")
 @Table(name="person")
 public class Person implements Serializable{
 
@@ -72,6 +72,10 @@ public class Person implements Serializable{
 
     public void addRole(Role role){
         this.roles.add(role);
+    }
+
+    public void removeRole(Role role){
+        this.roles.remove(role);
     }
 
     public Set<Contact> getContact(){

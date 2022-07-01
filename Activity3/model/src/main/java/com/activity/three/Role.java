@@ -14,7 +14,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 
-@Entity
+@Entity(name="role")
 @Table(name="role")
 public class Role implements Serializable{
 
@@ -47,11 +47,15 @@ public class Role implements Serializable{
         this.roles = roles;
     }
 
+    public Set<Person> getPersons(){
+        return persons;
+    }
+
     public void addPerson(Person person){
         this.persons.add(person);
     }
 
-    public Set<Person> getPersons(){
-        return persons;
+    public void removePerson(Person person){
+        this.persons.remove(person);
     }
 }

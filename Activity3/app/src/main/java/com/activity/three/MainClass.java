@@ -17,9 +17,8 @@ public class MainClass {
         pc.addPerson(person2);
         pc.addPerson(person3);
 
-        //PERSON READ - ERROR
-        // List<Person> persons = pc.getAllPerson();
-        // persons.forEach(person->System.out.print(person.getId()));
+        //PERSON READ
+        List<Person> persons = pc.getAllPersons();
 
         //PERSON GET ID
         Person person4 = pc.getPersonById(person1.getId());
@@ -41,9 +40,8 @@ public class MainClass {
         cc.addContact(contact3);
         cc.addContact(contact4);
 
-        //CONTACT READ - ERROR
-        // List<Contact> contacts = pc.getAllContact();
-        // contacts.forEach(contact->System.out.print(contact.getId()));
+        //CONTACT READ
+        List<Contact> contacts = cc.getAllContacts();
 
         //CONTACT GET ID
         Contact contact5 = cc.getContactById(contact2.getId());
@@ -61,12 +59,21 @@ public class MainClass {
         rc.addRole(role1);
         rc.addRole(role2);
 
+        //CONTACT READ
+        List<Role> roles = rc.getAllRoles();
+
         //PERSON + CONTACT
         person1.getContact().add(contact1);
         person1.getContact().add(contact2);
         person2.getContact().add(contact3);
         pc.updatePerson(person1);
         pc.updatePerson(person2);
+
+        //UPDATE CONTACT OF PERSON
+        contact1.setTel_no("09291667236");
+        person1.getContact().add(contact1);
+        cc.updateContact(contact1);
+        pc.updatePerson(person1);
 
         //PERSON + ROLE
         person1.getRoles().add(role1);
@@ -76,6 +83,18 @@ public class MainClass {
         role2.getPersons().add(person1);
         role2.getPersons().add(person2);
         rc.updateRole(role1);
+        rc.updateRole(role2);
+
+        //UPDATE ROLE OF PERSON
+        person2.getRoles().remove(role2);
+        role2.getPersons().remove(person2);
+        person2.getRoles().add(role1);
+        role1.getPersons().add(person2);
+        rc.updateRole(role1);
+
+        //REMOVE ROLE TO PERSON
+        person1.getRoles().remove(role2);
+        role2.getPersons().remove(person1);
         rc.updateRole(role2);
     }
 }
