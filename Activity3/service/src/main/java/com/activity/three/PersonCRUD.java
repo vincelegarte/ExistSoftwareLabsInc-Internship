@@ -84,4 +84,22 @@ public class PersonCRUD {
         }
     }
 
+    // public void deletePerson(Person person){
+    //     Transaction transaction = null;
+    //     try(Session session = HibernateUtil.getSessionFactory().openSession()){
+    //         transaction = session.beginTransaction();
+    //         for(Role role : person.getRoles()){
+    //             role.getPersons().remove(person);
+    //         }
+    //         session.delete(person);
+    //         transaction.commit();
+    //         session.close();
+    //     } catch (Exception e){
+    //         if (transaction != null){
+    //             transaction.rollback();
+    //         }
+    //     }
+    // }
+
+
 }

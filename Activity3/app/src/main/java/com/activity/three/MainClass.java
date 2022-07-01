@@ -96,5 +96,11 @@ public class MainClass {
         person1.getRoles().remove(role2);
         role2.getPersons().remove(person1);
         rc.updateRole(role2);
+
+        //REMOVING PERSON + CONTACT AND ROLE
+        person1.getRoles().remove(role1);
+        role1.getPersons().remove(person1);
+        rc.updateRole(role1);
+        pc.removePerson(person1.getId());
     }
 }

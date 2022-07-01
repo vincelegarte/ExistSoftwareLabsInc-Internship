@@ -31,7 +31,7 @@ public class Person implements Serializable{
     @ManyToMany(mappedBy="persons")
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy="person",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="person", orphanRemoval=true, cascade=CascadeType.ALL)
     private Set<Contact> contacts = new HashSet<>();
 
     public Person(){
