@@ -12,7 +12,7 @@ import jakarta.persistence.JoinTable;
 
 @Entity(name ="contact")
 @Table(name="contact")
-public class Contact implements Serializable{
+public class Contact{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

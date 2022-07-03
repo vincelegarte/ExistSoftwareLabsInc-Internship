@@ -16,7 +16,7 @@ import jakarta.persistence.JoinColumn;
 
 @Entity(name="role")
 @Table(name="role")
-public class Role implements Serializable{
+public class Role{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

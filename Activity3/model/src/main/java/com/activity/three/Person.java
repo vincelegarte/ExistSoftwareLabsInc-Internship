@@ -15,7 +15,7 @@ import jakarta.persistence.CascadeType;
 
 @Entity(name="person")
 @Table(name="person")
-public class Person implements Serializable{
+public class Person{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -1,10 +1,10 @@
 package com.activity.three;
+
 import com.activity.three.HibernateUtil;
+
 import java.util.List;
-import java.util.Iterator;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 public class PersonCRUD {
 

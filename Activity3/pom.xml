@@ -29,7 +29,13 @@
               <groupId>org.postgresql</groupId>
               <artifactId>postgresql</artifactId>
               <version>42.4.0</version>
-              <scope>runtime</scope>
+          </dependency>
+          <!-- https://mvnrepository.com/artifact/org.sonarsource.sonarqube/sonar-plugin-api -->
+          <dependency>
+              <groupId>org.sonarsource.sonarqube</groupId>
+              <artifactId>sonar-plugin-api</artifactId>
+              <version>9.4.0.54424</version>
+              <scope>provided</scope>
           </dependency>
       </dependencies>
     </dependencyManagement>
@@ -87,28 +93,6 @@
                             <id>default-jar</id>
                             <!-- put the default-jar in the none phase to skip it from being created -->
                             <phase>none</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.6</version>
-                    <executions>
-                        <!--first execution : for preparing JaCoCo runtime agent-->
-                        <execution>
-                            <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                        </execution>
-                        <!--second execution : for creating code coverage reports-->
-                        <execution>
-                            <id>report</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
                         </execution>
                     </executions>
                 </plugin>
