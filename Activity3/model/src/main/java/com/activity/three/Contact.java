@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
 
 @Entity(name ="contact")
 @Table(name="contact")
@@ -46,7 +45,7 @@ public class Contact implements Serializable{
         return person;
     }
 
-    public void setPerson(){
+    public void setPerson(Person person){
         this.person = person;
     }
 }

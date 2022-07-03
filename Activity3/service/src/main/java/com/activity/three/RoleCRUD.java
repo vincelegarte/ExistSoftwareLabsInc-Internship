@@ -14,7 +14,6 @@ public class RoleCRUD {
             transaction = session.beginTransaction();
             session.save(role);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -29,7 +28,6 @@ public class RoleCRUD {
             transaction = session.beginTransaction();
             role = session.get(Role.class, id);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -45,7 +43,6 @@ public class RoleCRUD {
             transaction = session.beginTransaction();
             roles = session.createQuery("FROM role").list();
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -60,7 +57,6 @@ public class RoleCRUD {
             transaction = session.beginTransaction();
             session.saveOrUpdate(role);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -76,7 +72,6 @@ public class RoleCRUD {
             role = session.get(Role.class, id);
             session.delete(role);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();

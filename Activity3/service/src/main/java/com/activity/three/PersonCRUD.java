@@ -14,7 +14,6 @@ public class PersonCRUD {
             transaction = session.beginTransaction();
             session.save(person);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -29,7 +28,6 @@ public class PersonCRUD {
             transaction = session.beginTransaction();
             person = session.get(Person.class, id);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -45,7 +43,6 @@ public class PersonCRUD {
             transaction = session.beginTransaction();
             persons = session.createQuery("FROM person").list();
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -60,7 +57,6 @@ public class PersonCRUD {
             transaction = session.beginTransaction();
             session.saveOrUpdate(person);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
@@ -76,30 +72,11 @@ public class PersonCRUD {
             person = session.get(Person.class, id);
             session.delete(person);
             transaction.commit();
-            session.close();
         } catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
             }
         }
     }
-
-    // public void deletePerson(Person person){
-    //     Transaction transaction = null;
-    //     try(Session session = HibernateUtil.getSessionFactory().openSession()){
-    //         transaction = session.beginTransaction();
-    //         for(Role role : person.getRoles()){
-    //             role.getPersons().remove(person);
-    //         }
-    //         session.delete(person);
-    //         transaction.commit();
-    //         session.close();
-    //     } catch (Exception e){
-    //         if (transaction != null){
-    //             transaction.rollback();
-    //         }
-    //     }
-    // }
-
 
 }

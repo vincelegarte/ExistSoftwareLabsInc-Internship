@@ -27,6 +27,9 @@ public class MainClass {
         person2.setFirst_name("Andrew");
         pc.updatePerson(person2); 
 
+        //TEST
+        Contact contact6 = new Contact("09123654755",person3);
+
         //PERSON DELETE
         pc.removePerson(person3.getId());
 
@@ -53,7 +56,7 @@ public class MainClass {
         //CONTACT DELETE
         cc.removeContact(contact4.getId());
 
-        //ROLE CREATE (PERSON + ROLE)
+        //ROLE CREATE
         Role role1 = new Role("admin");
         Role role2 = new Role("user");
         rc.addRole(role1);
@@ -91,6 +94,7 @@ public class MainClass {
         person2.getRoles().add(role1);
         role1.getPersons().add(person2);
         rc.updateRole(role1);
+        rc.updateRole(role2);
 
         //REMOVE ROLE TO PERSON
         person1.getRoles().remove(role2);
