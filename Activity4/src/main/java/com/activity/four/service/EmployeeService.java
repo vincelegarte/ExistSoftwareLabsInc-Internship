@@ -2,24 +2,22 @@ package com.activity.four.service;
 
 import com.activity.four.entity.Employee;
 import com.activity.four.repository.EmployeeRepository;
-import com.activity.four.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
 
     private EmployeeRepository employeeRepository;
-    private TicketRepository ticketRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, TicketRepository ticketRepository){
+    public EmployeeService(EmployeeRepository employeeRepository){
         this.employeeRepository = employeeRepository;
-        this.ticketRepository = ticketRepository;
     }
 
     public List<Employee> getEmployees(){
@@ -31,12 +29,12 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(long employeeNumber){
-
-        boolean exists = employeeRepository.existsById(employeeNumber);
-        if(!exists){
-            throw new IllegalStateException("employee with number "+employeeNumber+" does not exist");
+        Employee employee = employeeRepository.findById(employeeNumber).orElseThrow(
+                ()->new IllegalStateException("employee with number "+employeeNumber+" does not exist"));
+        Optional<Employee> employeeOptional = employeeRepository.findAssignedTicket(employee.getTicket());
+        if(employeeOptional.isPresent()){
+            throw new IllegalStateException("employee with assigned ticket cannot be deleted");
         }
-
         employeeRepository.deleteById(employeeNumber);
     }
 

@@ -102,4 +102,8 @@ public class Ticket {
     public void setEmployees(Employee employee) {
         employees.add(employee);
     }
+
+    public void removeEmployees(Employee employee) {
+        employees.remove(employee);
+    }
 }

@@ -28,12 +28,12 @@ public class EmployeeController {
         employeeService.addEmployee(employee);
     }
 
-    @DeleteMapping(path = "{employeeNumber}")
+    @DeleteMapping(path = "/{employeeNumber}")
     public void removeEmployee(@PathVariable("employeeNumber") Long employeeNumber){
         employeeService.deleteEmployee(employeeNumber);
     }
 
-    @PutMapping(path = "{employeeNumber}")
+    @PutMapping(path = "/{employeeNumber}")
     public void changeEmployee(
             @PathVariable("employeeNumber") Long employeeNumber,
             @RequestParam(required = false) String firstName,

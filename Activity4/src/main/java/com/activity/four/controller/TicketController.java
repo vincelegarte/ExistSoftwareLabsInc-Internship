@@ -28,12 +28,12 @@ public class TicketController {
         ticketService.addTicket(ticket);
     }
 
-    @DeleteMapping(path = "{ticketNumber}")
+    @DeleteMapping(path = "/{ticketNumber}")
     public void removeTicket(@PathVariable("ticketNumber") Long ticketNumber){
         ticketService.deleteTicket(ticketNumber);
     }
 
-    @PutMapping(path = "{ticketNumber}")
+    @PutMapping(path = "/{ticketNumber}")
     public void changeTicket(
             @PathVariable("ticketNumber") Long ticketNumber,
             @RequestParam(required=false) String title,

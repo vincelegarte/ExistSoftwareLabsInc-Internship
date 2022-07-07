@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface TicketRepository extends JpaRepository <Ticket,Long> {
 
     @Query("SELECT t FROM Ticket t WHERE t.employee =?1")
-    Optional<Ticket> findAssignedTicket(Employee employee);
+    Optional<Ticket> findAssignedEmployee(Employee employee);
+
 }

@@ -32,12 +32,13 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
-    public void deleteTicket(Long ticket_number){
-        boolean exists = ticketRepository.existsById(ticket_number);
+    public void deleteTicket(Long ticketNumber){
+        boolean exists = ticketRepository.existsById(ticketNumber);
         if(!exists){
-            throw new IllegalStateException("ticket with number "+ticket_number+" does not exist");
+            throw new IllegalStateException("ticket with number "+ticketNumber+" does not exist");
         }
-        ticketRepository.deleteById(ticket_number);
+
+        ticketRepository.deleteById(ticketNumber);
     }
 
     @Transactional
@@ -64,11 +65,11 @@ public class TicketService {
         Employee employee = employeeRepository.findById(employeeNumber).orElseThrow(
                 ()->new IllegalStateException("employee with number "+employeeNumber+" does not exist"));
 
-        Optional<Ticket> ticketOptional = ticketRepository.findAssignedTicket(ticket.getEmployee());
+        Optional<Ticket> ticketOptional = ticketRepository.findAssignedEmployee(ticket.getEmployee());
 
-        if(employee != null && employeeNumber > 0){
-            if(ticketOptional.isPresent()){
-                throw new IllegalStateException("ticket is already taken");
+        if(employee != null && employeeNumber > 0 && ticket !=null && ticketNumber > 0){
+            if(ticketOptional.isPresent() ){
+                throw new IllegalStateException("a ticket can only be assigned to one employee");
             }
             ticket.setEmployee(employee);
             employee.setTicket(ticket);
