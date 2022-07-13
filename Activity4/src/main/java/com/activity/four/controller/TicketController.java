@@ -9,12 +9,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tickets")
-public class TicketController {
+public class TicketController{
 
     private final TicketService ticketService;
 
     @Autowired
-    public TicketController(TicketService ticketService){
+    public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
 
@@ -34,14 +34,27 @@ public class TicketController {
     }
 
     @PutMapping(path = "/{ticketNumber}")
-    public void changeTicket(
+    public void updateTicket(
             @PathVariable("ticketNumber") Long ticketNumber,
             @RequestParam(required=false) String title,
             @RequestParam(required=false) String description,
             @RequestParam(required=false) String severity,
-            @RequestParam(required=false) String status,
-            @RequestParam(required=false) Long employeeNumber){
-        ticketService.updateTicket(ticketNumber,title,description,severity,status, employeeNumber);
+            @RequestParam(required=false) String status){
+        ticketService.changeTicket(ticketNumber,title,description,severity,status);
+    }
+
+    @PutMapping(path = "/{ticketNumber}/add-assignee/{employeeNumber}")
+    public void assignATicket(
+            @PathVariable("ticketNumber") Long ticketNumber,
+            @PathVariable("employeeNumber") Long employeeNumber){
+        ticketService.assignTicket(ticketNumber,employeeNumber);
+    }
+
+    @PutMapping(path = "/{ticketNumber}/add-watcher/{employeeNumber}")
+    public void addToWatcher(
+            @PathVariable("ticketNumber") Long ticketNumber,
+            @PathVariable("employeeNumber") Long employeeNumber){
+        ticketService.addWatcher(ticketNumber,employeeNumber);
     }
 
 }

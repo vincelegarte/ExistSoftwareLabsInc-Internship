@@ -14,7 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import static com.activity.four.security.ApplicationRole.*;
+import static com.activity.four.security.ApplicationRole.ADMIN;
+import static com.activity.four.security.ApplicationRole.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -42,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
-
     }
 
     @Override

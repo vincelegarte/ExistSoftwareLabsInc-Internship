@@ -9,9 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TicketRepository extends JpaRepository <Ticket,Long> {
+public interface TicketRepository extends JpaRepository<Ticket,Long> {
 
-    @Query("SELECT t FROM Ticket t WHERE t.employee =?1")
-    Optional<Ticket> findAssignedEmployee(Employee employee);
+    //CHECK IF A TICKET IS ASSIGNED TO EMPLOYEE
+    @Query("SELECT t FROM Ticket t WHERE t.assignee =?1")
+    Optional<Ticket> findTicketByEmployee(Employee employee);
 
 }

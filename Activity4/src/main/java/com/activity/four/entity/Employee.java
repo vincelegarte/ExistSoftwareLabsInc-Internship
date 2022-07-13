@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Employee {
+public class Employee{
 
     @Id
     @SequenceGenerator(
@@ -27,14 +27,22 @@ public class Employee {
     private String department;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    private Ticket ticket;
+    @OneToMany
+    private Set<Ticket> assigned = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
-    private Set<Ticket> tickets = new HashSet<>();
+    @ManyToMany(mappedBy = "watchers")
+    private Set<Ticket> watcher = new HashSet<>();
 
     public Employee() {
+    }
+
+    public Employee(Long id, String firstName, String middleName, String lastName, String department) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.department = department;
     }
 
     public Employee(String firstName, String middleName, String lastName, String department) {
@@ -80,19 +88,12 @@ public class Employee {
         this.department = department;
     }
 
-    public Ticket getTicket() {
-        return ticket;
+    public Set<Ticket> getAssigned() {
+        return assigned;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setAssigned(Ticket ticket){
+        assigned.add(ticket);
     }
 
-    public Set<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
-    }
 }

@@ -1,7 +1,5 @@
 package com.activity.four.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,28 +18,34 @@ public class Ticket {
             strategy = GenerationType.SEQUENCE,
             generator = "ticket_sequence"
     )
-    @Column(name="ticket_number")
+    @Column(name = "ticket_number")
     private Long id;
     private String title;
     private String description;
     private String severity;
     private String status;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "assignee")
-    private Employee employee;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinColumn(name = "assignee", referencedColumnName = "id")
+    private Employee assignee;
 
-    @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
-            name = "watchers",
-            joinColumns = @JoinColumn(name = "ticket_number"),
-            inverseJoinColumns = @JoinColumn(name = "employee_number")
+            name = "employee_watchers",
+            joinColumns = @JoinColumn(name = "employee_number"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_number")
     )
-    private Set<Employee> employees = new HashSet<>();
+    private Set<Employee> watchers = new HashSet<>();
 
     public Ticket() {
+    }
+
+    public Ticket(Long id, String title, String description, String severity, String status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.severity = severity;
+        this.status = status;
     }
 
     public Ticket(String title, String description, String severity, String status) {
@@ -87,23 +91,19 @@ public class Ticket {
         this.status = status;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Set<Employee> getWatchers() {
+        return watchers;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setWatchers(Employee employee) {
+        watchers.add(employee);
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public Employee getAssignee() {
+        return assignee;
     }
 
-    public void setEmployees(Employee employee) {
-        employees.add(employee);
-    }
-
-    public void removeEmployees(Employee employee) {
-        employees.remove(employee);
+    public void setAssignee(Employee assignee) {
+        this.assignee = assignee;
     }
 }
