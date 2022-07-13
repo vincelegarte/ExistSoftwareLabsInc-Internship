@@ -1,4 +1,4 @@
-package com.activity.four.security;
+package com.activity.four.security.service.authorities;
 
 import com.google.common.collect.Sets;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -6,12 +6,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.activity.four.security.ApplicationPermission.*;
+import static com.activity.four.security.service.authorities.ApplicationPermission.*;
 
 public enum ApplicationRole {
 
     USER(Sets.newHashSet(EMPLOYEE_READ,TICKET_READ)),
-    ADMIN(Sets.newHashSet(EMPLOYEE_READ, EMPLOYEE_WRITE, TICKET_READ, TICKET_WRITE));
+    ADMIN(Sets.newHashSet(EMPLOYEE_READ, EMPLOYEE_WRITE, TICKET_READ, ApplicationPermission.TICKET_WRITE));
 
     private final Set<ApplicationPermission> permissions;
 

@@ -1,4 +1,4 @@
-package com.activity.four.security;
+package com.activity.four.security.service.authorities;
 
 public enum ApplicationPermission {
     EMPLOYEE_READ("employee:read"),
@@ -15,5 +15,4 @@ public enum ApplicationPermission {
     public String getPermission(){
         return permission;
     }
-
 }
