@@ -3,10 +3,9 @@ package com.activity.four.controller;
 import capital.scalable.restdocs.AutoDocumentation;
 import capital.scalable.restdocs.jackson.JacksonResultHandlers;
 import capital.scalable.restdocs.response.ResponseModifyingPreprocessors;
-import com.activity.four.model.Employee;
-import com.activity.four.model.Ticket;
+import com.activity.four.model.Users;
 import com.activity.four.response.Response;
-import com.activity.four.service.TicketService;
+import com.activity.four.service.UsersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +21,7 @@ import org.springframework.restdocs.cli.CliDocumentation;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,14 +31,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
 @AutoConfigureRestDocs(outputDir = "target/generated-docs")
-class TicketControllerTest {
+class UsersControllerTest {
 
     private MockMvc mockMvc;
 
@@ -46,16 +45,19 @@ class TicketControllerTest {
     ObjectWriter objectWriter = objectMapper.writer();
 
     @Mock
-    private TicketService ticketServiceTest;
-    private TicketController ticketControllerTest;
+    private UsersService usersServiceTest;
 
-    private Ticket ticket;
-    private Employee employee;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    private UsersController usersControllerTest;
+
+    private Users user;
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
-        ticketControllerTest = new TicketController(ticketServiceTest);
-        mockMvc = MockMvcBuilders.standaloneSetup(ticketControllerTest)
+        usersControllerTest = new UsersController(usersServiceTest);
+        mockMvc = MockMvcBuilders.standaloneSetup(usersControllerTest)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
                 .alwaysDo(MockMvcRestDocumentation.document("{method-name}",
@@ -82,52 +84,27 @@ class TicketControllerTest {
                                 AutoDocumentation.section()))
                 .build();
 
-        ticket = new Ticket(1L, "Ticket 1", "Test 1", "Major", "New");
-        employee = new Employee(1L, "Alice", "Harrington", "Rocca", "HR");
+        user = new Users(1L, "user", passwordEncoder.encode("user"), "USER");
     }
 
     @Test
-    void getTickets() throws Exception {
-        List<Ticket> tickets = Arrays.asList(
-                new Ticket(1L, "Ticket 1", "Test 1", "Major", "New"),
-                new Ticket(2L, "Ticket 2", "Test 2", "Critical", "New"),
-                new Ticket(3L, "Ticket 3", "Test 3", "Normal", "New")
+    void getUsers() throws Exception {
+        List<Users> users = Arrays.asList(
+                new Users(1L, "user", passwordEncoder.encode("user"), "USER"),
+                new Users(2L, "admin", passwordEncoder.encode("admin"), "ADMIN")
         );
-        when(ticketServiceTest.getTickets()).thenReturn(tickets);
+        when(usersServiceTest.getUsers()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/tickets"))
+                        .get("/api/v1/users"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getTicket() throws Exception {
-        Ticket ticket = new Ticket(1L, "Ticket 1", "Test 1", "Major", "New");
-        when(ticketServiceTest.getTicket(any())).thenReturn(ticket);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/tickets/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void listTicket() throws Exception {
-        List<Ticket> tickets = Arrays.asList(
-                new Ticket(1L, "Ticket 1", "Test 1", "Major", "New"),
-                new Ticket(2L, "Ticket 2", "Test 2", "Critical", "New")
-        );
-        when(ticketServiceTest.listTickets(employee.getId())).thenReturn(tickets);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/v1/tickets/list-ticket/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void addTicket() throws Exception {
-        String content = objectWriter.writeValueAsString(ticket);
+    void createUser() throws Exception {
+        String content = objectWriter.writeValueAsString(user);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/v1/tickets")
+                        .post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk())
@@ -139,10 +116,10 @@ class TicketControllerTest {
     }
 
     @Test
-    void deleteTicket() throws Exception {
-        String content = objectWriter.writeValueAsString(ticket);
+    void deleteUser() throws Exception {
+        String content = objectWriter.writeValueAsString(user);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/v1/tickets/1")
+                        .delete("/api/v1/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk())
@@ -154,40 +131,10 @@ class TicketControllerTest {
     }
 
     @Test
-    void updateTicket() throws Exception {
-        String content = objectWriter.writeValueAsString(ticket);
+    void updateUser() throws Exception {
+        String content = objectWriter.writeValueAsString(user);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/v1/tickets/1?severity=Closed")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String resultContent = result.getResponse().getContentAsString();
-        Response response = objectMapper.readValue(resultContent, Response.class);
-        assertEquals(response.isSuccess(), Boolean.TRUE);
-    }
-
-    @Test
-    void assignTicket() throws Exception {
-        String content = objectWriter.writeValueAsString(ticket);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/v1/tickets/1/add-assignee/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String resultContent = result.getResponse().getContentAsString();
-        Response response = objectMapper.readValue(resultContent, Response.class);
-        assertEquals(response.isSuccess(), Boolean.TRUE);
-    }
-
-    @Test
-    void addWatcher() throws Exception {
-        String content = objectWriter.writeValueAsString(ticket);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/v1/tickets/1/add-watcher/1")
+                        .put("/api/v1/users/1?username=vince")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
                 .andExpect(status().isOk())

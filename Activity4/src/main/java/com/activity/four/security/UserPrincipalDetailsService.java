@@ -1,17 +1,13 @@
-package com.activity.four.security.service;
+package com.activity.four.security;
 
-import com.activity.four.security.model.UserPrincipal;
-import com.activity.four.security.model.Users;
-import com.activity.four.security.repository.UsersRepository;
+import com.activity.four.model.UserPrincipal;
+import com.activity.four.model.Users;
+import com.activity.four.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-
-import static com.activity.four.security.service.authorities.ApplicationRole.USER;
 
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
@@ -20,7 +16,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     private UsersRepository usersRepository;
 
     @Autowired
-    public UserPrincipalDetailsService(UsersRepository usersRepository){
+    public UserPrincipalDetailsService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 

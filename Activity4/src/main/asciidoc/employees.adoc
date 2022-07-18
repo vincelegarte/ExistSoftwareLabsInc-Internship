@@ -1,0 +1,13 @@
+= WEB HELP DESK SYSTEM - SPRING REST DOCS [EMPLOYEES]
+
+include::{snippets}/get-employees/auto-section.adoc[]
+
+include::{snippets}/get-employee/auto-section.adoc[]
+
+include::{snippets}/add-employee/auto-section.adoc[]
+
+include::{snippets}/delete-employee/auto-section.adoc[]
+
+include::{snippets}/update-employee/auto-section.adoc[]
+
+include::{snippets}/remove-ticket/auto-section.adoc[]

@@ -1,6 +1,6 @@
-package com.activity.four.security.configurations;
+package com.activity.four.configurations;
 
-import com.activity.four.security.service.UserPrincipalDetailsService;
+import com.activity.four.security.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.activity.four.security.service.authorities.ApplicationRole.ADMIN;
-import static com.activity.four.security.service.authorities.ApplicationRole.USER;
+import static com.activity.four.security.authorities.ApplicationRole.ADMIN;
+import static com.activity.four.security.authorities.ApplicationRole.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserPrincipalDetailsService userPrincipalDetailsService;
 
     @Autowired
-    public SecurityConfiguration(PasswordEncoder passwordEncoder, UserPrincipalDetailsService userPrincipalDetailsService){
+    public SecurityConfiguration(PasswordEncoder passwordEncoder, UserPrincipalDetailsService userPrincipalDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.userPrincipalDetailsService = userPrincipalDetailsService;
     }
@@ -40,8 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","index","/css/*","/js/*").permitAll()
-                .antMatchers(HttpMethod.GET).hasAnyRole(ADMIN.name(), USER.name())
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/users").hasRole(ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/api/v1/employees").hasAnyRole(ADMIN.name(), USER.name())
+                .antMatchers(HttpMethod.GET, "/api/v1/tickets").hasAnyRole(ADMIN.name(), USER.name())
                 .antMatchers(HttpMethod.POST).hasRole(ADMIN.name())
                 .antMatchers(HttpMethod.DELETE).hasRole(ADMIN.name())
                 .antMatchers(HttpMethod.PUT).hasRole(ADMIN.name())
@@ -52,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(this.userPrincipalDetailsService);

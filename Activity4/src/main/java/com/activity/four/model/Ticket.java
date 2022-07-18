@@ -1,4 +1,6 @@
-package com.activity.four.entity;
+package com.activity.four.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,7 +12,7 @@ public class Ticket {
 
     @Id
     @SequenceGenerator(
-            name="ticket_sequence",
+            name = "ticket_sequence",
             sequenceName = "ticket_sequence",
             allocationSize = 1
     )
@@ -25,11 +27,13 @@ public class Ticket {
     private String severity;
     private String status;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "assignee", referencedColumnName = "id")
     private Employee assignee;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "employee_watchers",
             joinColumns = @JoinColumn(name = "employee_number"),
@@ -106,4 +110,5 @@ public class Ticket {
     public void setAssignee(Employee assignee) {
         this.assignee = assignee;
     }
+
 }

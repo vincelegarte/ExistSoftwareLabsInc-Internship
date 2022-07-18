@@ -1,4 +1,4 @@
-package com.activity.four.entity;
+package com.activity.four.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -8,11 +8,11 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Employee{
+public class Employee {
 
     @Id
     @SequenceGenerator(
-            name="employee_sequence",
+            name = "employee_sequence",
             sequenceName = "employee_sequence",
             allocationSize = 1
     )
@@ -30,7 +30,6 @@ public class Employee{
     @OneToMany
     private Set<Ticket> assigned = new HashSet<>();
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "watchers")
     private Set<Ticket> watcher = new HashSet<>();
 
@@ -92,8 +91,12 @@ public class Employee{
         return assigned;
     }
 
-    public void setAssigned(Ticket ticket){
+    public void setAssigned(Ticket ticket) {
         assigned.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
+        assigned.remove(ticket);
     }
 
 }

@@ -1,9 +1,8 @@
-package com.activity.four.security.model;
+package com.activity.four.model;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 @Entity
@@ -12,7 +11,7 @@ public class Users {
 
     @Id
     @SequenceGenerator(
-            name="user_sequence",
+            name = "user_sequence",
             sequenceName = "user_sequence",
             allocationSize = 1
     )
@@ -25,9 +24,14 @@ public class Users {
     private String password;
     private String role;
 
-    private String authorities;
-
     public Users() {
+    }
+
+    public Users(Long id, String username, String password, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public Users(String username, String password, String role) {

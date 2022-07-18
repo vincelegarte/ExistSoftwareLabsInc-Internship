@@ -1,0 +1,17 @@
+= WEB HELP DESK SYSTEM - SPRING REST DOCS [TICKETS]
+
+include::{snippets}/get-tickets/auto-section.adoc[]
+
+include::{snippets}/get-ticket/auto-section.adoc[]
+
+include::{snippets}/list-ticket/auto-section.adoc[]
+
+include::{snippets}/add-ticket/auto-section.adoc[]
+
+include::{snippets}/delete-ticket/auto-section.adoc[]
+
+include::{snippets}/update-ticket/auto-section.adoc[]
+
+include::{snippets}/assign-ticket/auto-section.adoc[]
+
+include::{snippets}/add-watcher/auto-section.adoc[]
