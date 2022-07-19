@@ -29,14 +29,16 @@ class TicketServiceTest {
     private EmployeeRepository employeeRepositoryTest;
     private TicketService ticketServiceTest;
 
-    private Ticket ticket;
-    private Employee employee;
+    private Ticket ticket_1, ticket_2;
+    private Employee employee_1, employee_2;
 
     @BeforeEach
     void setUp() {
         ticketServiceTest = new TicketService(ticketRepositoryTest, employeeRepositoryTest);
-        ticket = new Ticket(1L, "Ticket 1", "Test 1", "Major", "Assigned");
-        employee = new Employee(1L, "Vince", "Soriano", "Legarte", "IT");
+        ticket_1 = new Ticket(1L, "Ticket 1", "Test 1", "Major", "Assigned");
+        ticket_2 = new Ticket(2L, "Ticket 2", "Test 2", "Critical", "New");
+        employee_1 = new Employee(1L, "Vince", "Soriano", "Legarte", "IT");
+        employee_2 = new Employee(2L, "Alice", "Harrington", "Rocca", "HR");
     }
 
     @Test
@@ -47,180 +49,183 @@ class TicketServiceTest {
 
     @Test
     void getTicket() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.getTicket(ticket.getId());
-        verify(ticketRepositoryTest).findById(ticket.getId());
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.getTicket(ticket_1.getId());
+        verify(ticketRepositoryTest).findById(ticket_1.getId());
     }
 
     @Test
     void getTicket_TicketDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.getTicket(ticket.getId()))
+        assertThatThrownBy(() -> ticketServiceTest.getTicket(ticket_1.getId()))
                 .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     void listTicket() {
-        employee.setAssigned(ticket);
-        Optional<Employee> optionalEmployee = Optional.of(employee);
-        when(employeeRepositoryTest.findById(employee.getId())).thenReturn(optionalEmployee);
-        ticketServiceTest.listTickets(employee.getId());
-        verify(employeeRepositoryTest).findById(employee.getId());
+        employee_1.setAssigned(ticket_1);
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        ticketServiceTest.listTickets(employee_1.getId());
+        verify(employeeRepositoryTest).findById(employee_1.getId());
     }
 
     @Test
     void listTicket_EmployeeDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.listTickets(employee.getId()))
-                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee.getId() + " does not exist");
+        assertThatThrownBy(() -> ticketServiceTest.listTickets(employee_1.getId()))
+                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee_1.getId() + " does not exist");
     }
 
     @Test
     void listTicket_NoAssignee() {
-        Optional<Employee> optionalEmployee = Optional.of(employee);
-        when(employeeRepositoryTest.findById(employee.getId())).thenReturn(optionalEmployee);
-        assertThatThrownBy(() -> ticketServiceTest.listTickets(employee.getId()))
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        assertThatThrownBy(() -> ticketServiceTest.listTickets(employee_1.getId()))
                 .isInstanceOf(IllegalStateException.class).hasMessage("employee is not assigned to a ticket");
     }
 
     @Test
     void addTicket() {
-        ticketServiceTest.addTicket(ticket);
+        ticketServiceTest.addTicket(ticket_1);
         ArgumentCaptor<Ticket> ticketArgumentCaptor = ArgumentCaptor.forClass(Ticket.class);
         verify(ticketRepositoryTest).save(ticketArgumentCaptor.capture());
         Ticket capturedTicket = ticketArgumentCaptor.getValue();
-        assertThat(capturedTicket).isEqualTo(ticket);
+        assertThat(capturedTicket).isEqualTo(ticket_1);
     }
 
     @Test
     void deleteTicket() {
-        employee.setAssigned(ticket);
-        ticket.setAssignee(employee);
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.deleteTicket(ticket.getId());
-        verify(ticketRepositoryTest, times(1)).deleteById(ticket.getId());
+        employee_1.setAssigned(ticket_1);
+        ticket_1.setAssignee(employee_1);
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.deleteTicket(ticket_1.getId());
+        verify(ticketRepositoryTest, times(1)).deleteById(ticket_1.getId());
     }
 
     @Test
     void deleteTicket_TicketDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.deleteTicket(ticket.getId()))
+        assertThatThrownBy(() -> ticketServiceTest.deleteTicket(ticket_1.getId()))
                 .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     void updateTicket() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.updateTicket(ticket.getId(), "Ticket 1.1", "Test 1.1", "Critical", "Closed");
-        assertEquals(ticket.getTitle(), "Ticket 1.1");
-        assertEquals(ticket.getDescription(), "Test 1.1");
-        assertEquals(ticket.getSeverity(), "Critical");
-        assertEquals(ticket.getStatus(), "Closed");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.updateTicket(ticket_1.getId(), "Ticket 1.1", "Test 1.1", "Critical", "Closed");
+        assertEquals(ticket_1.getTitle(), "Ticket 1.1");
+        assertEquals(ticket_1.getDescription(), "Test 1.1");
+        assertEquals(ticket_1.getSeverity(), "Critical");
+        assertEquals(ticket_1.getStatus(), "Closed");
     }
 
     @Test
     void updateTicket_Null() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.updateTicket(ticket.getId(), null, null, null, null);
-        assertEquals(ticket.getTitle(), "Ticket 1");
-        assertEquals(ticket.getDescription(), "Test 1");
-        assertEquals(ticket.getSeverity(), "Major");
-        assertEquals(ticket.getStatus(), "Assigned");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.updateTicket(ticket_1.getId(), null, null, null, null);
+        assertEquals(ticket_1.getTitle(), "Ticket 1");
+        assertEquals(ticket_1.getDescription(), "Test 1");
+        assertEquals(ticket_1.getSeverity(), "Major");
+        assertEquals(ticket_1.getStatus(), "Assigned");
     }
 
     @Test
     void updateTicket_ZeroLength() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.updateTicket(ticket.getId(), "", "", "", "");
-        assertEquals(ticket.getTitle(), "Ticket 1");
-        assertEquals(ticket.getDescription(), "Test 1");
-        assertEquals(ticket.getSeverity(), "Major");
-        assertEquals(ticket.getStatus(), "Assigned");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.updateTicket(ticket_1.getId(), "", "", "", "");
+        assertEquals(ticket_1.getTitle(), "Ticket 1");
+        assertEquals(ticket_1.getDescription(), "Test 1");
+        assertEquals(ticket_1.getSeverity(), "Major");
+        assertEquals(ticket_1.getStatus(), "Assigned");
     }
 
     @Test
     void updateTicket_Duplicate() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        ticketServiceTest.updateTicket(ticket.getId(), "Ticket 1", "Test 1", "Major", "Assigned");
-        assertEquals(ticket.getTitle(), "Ticket 1");
-        assertEquals(ticket.getDescription(), "Test 1");
-        assertEquals(ticket.getSeverity(), "Major");
-        assertEquals(ticket.getStatus(), "Assigned");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        ticketServiceTest.updateTicket(ticket_1.getId(), "Ticket 1", "Test 1", "Major", "Assigned");
+        assertEquals(ticket_1.getTitle(), "Ticket 1");
+        assertEquals(ticket_1.getDescription(), "Test 1");
+        assertEquals(ticket_1.getSeverity(), "Major");
+        assertEquals(ticket_1.getStatus(), "Assigned");
     }
 
     @Test
     void updateTicket_TicketDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.updateTicket(ticket.getId(), "Ticket 1.1", "Test 1.1", "Critical", "Closed"))
+        assertThatThrownBy(() -> ticketServiceTest.updateTicket(ticket_1.getId(), "Ticket 1.1", "Test 1.1", "Critical", "Closed"))
                 .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     void assignTicket() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        Optional<Employee> optionalEmployee = Optional.of(employee);
-        when(employeeRepositoryTest.findById(employee.getId())).thenReturn(optionalEmployee);
-        ticketServiceTest.assignTicket(ticket.getId(), employee.getId());
-        assertThat(ticket.getAssignee()).isEqualTo(employee);
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        ticketServiceTest.assignTicket(ticket_1.getId(), employee_1.getId());
+        assertThat(ticket_1.getAssignee()).isEqualTo(employee_1);
     }
 
     @Test
     void assignTicket_TicketDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.assignTicket(ticket.getId(), employee.getId()))
-                .isInstanceOf(IllegalStateException.class).hasMessage("ticket with id number of " + ticket.getId() + " does not exist");
+        assertThatThrownBy(() -> ticketServiceTest.assignTicket(ticket_1.getId(), employee_1.getId()))
+                .isInstanceOf(IllegalStateException.class).hasMessage("ticket with id number of " + ticket_1.getId() + " does not exist");
     }
 
     @Test
     void assignTicket_EmployeeDoesNotExist() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        assertThatThrownBy(() -> ticketServiceTest.assignTicket(ticket.getId(), employee.getId()))
-                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee.getId() + " does not exist");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        assertThatThrownBy(() -> ticketServiceTest.assignTicket(ticket_1.getId(), employee_1.getId()))
+                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee_1.getId() + " does not exist");
     }
 
     @Test
-    void assignTicket_TicketIsPresent() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findTicketByEmployee(employee)).thenReturn(optionalTicket);
-        Optional<Ticket> ticketOptional = ticketRepositoryTest.findTicketByEmployee(employee);
-        assertTrue(ticketOptional.isPresent());
+    void assignTicket_TicketIsAssigned() {
+        ticket_1.setAssignee(employee_2);
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        assertThatThrownBy(() -> ticketServiceTest.assignTicket(ticket_1.getId(), employee_1.getId()))
+                .isInstanceOf(IllegalStateException.class).hasMessage("ticket " + ticket_1.getId() + " is already assigned to employee " + ticket_1.getAssignee().getId());
     }
 
     @Test
     void addWatcher() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        Optional<Employee> optionalEmployee = Optional.of(employee);
-        when(employeeRepositoryTest.findById(employee.getId())).thenReturn(optionalEmployee);
-        ticketServiceTest.addWatcher(ticket.getId(), employee.getId());
-        assertThat(ticket.getWatchers().contains(employee)).isTrue();
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        ticketServiceTest.addWatcher(ticket_1.getId(), employee_1.getId());
+        assertThat(ticket_1.getWatchers().contains(employee_1)).isTrue();
     }
 
     @Test
     void addWatcher_TicketDoesNotExist() {
-        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket.getId(), employee.getId()))
+        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket_1.getId(), employee_1.getId()))
                 .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     void addWatcher_EmployeeDoesNotExist() {
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket.getId(), employee.getId()))
-                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee.getId() + " does not exist");
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket_1.getId(), employee_1.getId()))
+                .isInstanceOf(IllegalStateException.class).hasMessage("employee with id number of " + employee_1.getId() + " does not exist");
     }
 
     @Test
     void addWatcher_EmployeeIsAlreadyAWatcher() {
-        ticket.getWatchers().add(employee);
-        Optional<Ticket> optionalTicket = Optional.of(ticket);
-        when(ticketRepositoryTest.findById(ticket.getId())).thenReturn(optionalTicket);
-        Optional<Employee> optionalEmployee = Optional.of(employee);
-        when(employeeRepositoryTest.findById(employee.getId())).thenReturn(optionalEmployee);
-        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket.getId(), employee.getId()))
+        ticket_1.getWatchers().add(employee_1);
+        Optional<Ticket> optionalTicket = Optional.of(ticket_1);
+        when(ticketRepositoryTest.findById(ticket_1.getId())).thenReturn(optionalTicket);
+        Optional<Employee> optionalEmployee = Optional.of(employee_1);
+        when(employeeRepositoryTest.findById(employee_1.getId())).thenReturn(optionalEmployee);
+        assertThatThrownBy(() -> ticketServiceTest.addWatcher(ticket_1.getId(), employee_1.getId()))
                 .isInstanceOf(IllegalStateException.class).hasMessage("employee is already on watchers");
     }
 

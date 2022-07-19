@@ -1,0 +1,9 @@
+= WEB HELP DESK SYSTEM - SPRING REST DOCS [USERS]
+
+include::{snippets}/get-users/auto-section.adoc[]
+
+include::{snippets}/add-user/auto-section.adoc[]
+
+include::{snippets}/delete-user/auto-section.adoc[]
+
+include::{snippets}/update-user/auto-section.adoc[]

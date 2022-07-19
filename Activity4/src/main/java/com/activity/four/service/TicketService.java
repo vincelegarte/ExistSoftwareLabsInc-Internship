@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class TicketService {
@@ -81,12 +80,14 @@ public class TicketService {
                 () -> new IllegalStateException("ticket with id number of " + ticketNumber + " does not exist"));
         Employee employee = employeeRepository.findById(employeeNumber).orElseThrow(
                 () -> new IllegalStateException("employee with id number of " + employeeNumber + " does not exist"));
-        Optional<Ticket> ticketOptional = ticketRepository.findTicketByEmployee(ticket.getAssignee());
-        if (ticketOptional.isPresent()) {
-            throw new IllegalStateException("ticket " + ticketNumber + " is already assigned to " + ticket.getAssignee().getId());
+        try{
+            if(!ticket.getAssignee().equals(null)){
+                throw new IllegalStateException("ticket " + ticketNumber + " is already assigned to employee " + ticket.getAssignee().getId());
+            }
+        } catch (NullPointerException e){
+            employee.setAssigned(ticket);
+            ticket.setAssignee(employee);
         }
-        employee.setAssigned(ticket);
-        ticket.setAssignee(employee);
     }
 
     @Transactional

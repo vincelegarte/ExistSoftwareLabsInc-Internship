@@ -22,7 +22,7 @@ import org.springframework.restdocs.cli.CliDocumentation;
 import org.springframework.restdocs.http.HttpDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -35,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({MockitoExtension.class, RestDocumentationExtension.class})
@@ -50,6 +49,7 @@ class EmployeeControllerTest {
     @Mock
     private EmployeeService employeeServiceTest;
     private EmployeeController employeeControllerTest;
+
 
     private Employee employee;
     private Ticket ticket;
@@ -89,6 +89,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "vince", roles = "ADMIN")
     void getEmployees() throws Exception {
         List<Employee> employees = Arrays.asList(
                 new Employee(1L, "Winston", "Little", "Scott", "IT"),
@@ -112,6 +113,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "abc", roles = "USER")
     void addEmployee() throws Exception {
         String content = objectWriter.writeValueAsString(employee);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders

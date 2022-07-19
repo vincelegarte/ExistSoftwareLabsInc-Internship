@@ -101,7 +101,7 @@ class UsersControllerTest {
     }
 
     @Test
-    void createUser() throws Exception {
+    void addUser() throws Exception {
         String content = objectWriter.writeValueAsString(user);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/v1/users")

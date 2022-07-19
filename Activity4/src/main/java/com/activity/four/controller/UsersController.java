@@ -25,7 +25,7 @@ public class UsersController {
     }
 
     @PostMapping
-    public Response createUser(@RequestBody Users user) {
+    public Response addUser(@RequestBody Users user) {
         usersService.addUser(user);
         return new Response("user " + user.getId() + " inserted", Boolean.TRUE);
     }
